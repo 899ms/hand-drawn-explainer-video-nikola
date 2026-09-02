@@ -1,8 +1,8 @@
 {
   "profile_scope": "Public safe defaults; explicit user and project settings override",
-  "voice_provider": "optional_user_supplied_or_configured",
-  "voice_resource": "",
-  "speaker": "",
+  "voice_provider": "volcengine_openspeech",
+  "voice_resource": "seed-tts-2.0",
+  "speaker": "zh_male_liufei_uranus_bigtts",
   "default_pipeline": "route_by_visual_intent",
   "stroke_story_backend": "srt-whiteboard-animation",
   "stroke_story_ink_path": "skeleton",

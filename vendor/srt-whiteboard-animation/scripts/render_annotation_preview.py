@@ -1,17 +1,38 @@
 import json
+import os
 import sys
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
 
+def load_font(size: int):
+    """Load a CJK-capable font when available, without assuming Windows."""
+    candidates = [
+        os.environ.get("WHITEBOARD_FONT"),
+        "C:/Windows/Fonts/msyh.ttc",
+        "C:/Windows/Fonts/simhei.ttf",
+        "/System/Library/Fonts/PingFang.ttc",
+        "/System/Library/Fonts/STHeiti Light.ttc",
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+        "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+    ]
+    for candidate in candidates:
+        if candidate and Path(candidate).is_file():
+            try:
+                return ImageFont.truetype(candidate, size)
+            except OSError:
+                pass
+    return ImageFont.load_default(size=size)
+
+
 def main(image_path: str, annotation_path: str, output_path: str) -> None:
     image = Image.open(image_path).convert("RGBA")
     overlay = Image.new("RGBA", image.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
-    font_file = "C:/Windows/Fonts/msyh.ttc"
-    font = ImageFont.truetype(font_file, 28)
-    small_font = ImageFont.truetype(font_file, 18)
+    font = load_font(28)
+    small_font = load_font(18)
     colors = [(38, 103, 255, 225), (255, 105, 92, 225), (41, 167, 102, 225), (181, 100, 255, 225)]
 
     data = json.loads(Path(annotation_path).read_text(encoding="utf-8"))

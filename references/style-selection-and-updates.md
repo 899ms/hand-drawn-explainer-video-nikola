@@ -6,7 +6,8 @@
 
 | 参考 | 说明位置 | 当前具备 | 当前不具备 |
 |---|---|---|---|
-| 已确认程序动画 | [示例工程](../examples/program-animation/skill-demo/README.md) | SVG/HTML/GSAP 工程、旁白和时间轴，可按需渲染 | 独立 PNG/JPG 预览图、单独的预览 MP4 |
+| 已确认程序动画 | [示例工程](../examples/program-animation/skill-demo/README.md) | SVG/HTML/GSAP 工程、旁白、时间轴、PNG 封面和 14 秒预览 MP4，可按需重新渲染 | 完整 36 秒公开 MP4；仓库保留的是 14 秒轻量预览 |
+| 已确认多幕逐笔故事 | [《约法三章》](../examples/stroke-story/yuefa-sanzhang/README.md) | 16:9 手速平滑版 MP4、七幕检查图、时间轴、验证报告和可编辑工程包 | 通用历史人物模板；案例资产不固定新项目的故事和角色 |
 | 已确认双语义岛逐笔故事 | [代表镜头](../examples/stroke-story/steve-jobs/README.md) | 16:9 批准源图、双区标注、区域预览和约 8.9 秒实际样片 | 通用人物模板；该资产不固定故事、角色或时长 |
 | Q 版蜡笔（Q Doodle） | [style-guide.md](style-guide.md) | 粗黑线、蜡笔色块、人物比例、配色、构图和 Flow 动效提示词 | 示例图、素材包、已验证动画工程 |
 

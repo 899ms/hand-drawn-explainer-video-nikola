@@ -1,7 +1,8 @@
 {
   "voice": {
-    "provider": "",
-    "speaker": "",
+    "provider": "volcengine_openspeech",
+    "resource": "seed-tts-2.0",
+    "speaker": "zh_male_liufei_uranus_bigtts",
     "reuse_matching_audio": true
   },
   "video": {

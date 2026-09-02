@@ -1,12 +1,13 @@
 ---
 name: hand-drawn-explainer-video-nikola
-description: 制作、修改和验收中文手绘知识讲解视频，交付配音、字幕、时间轴、可编辑工程和真实 MP4。支持三条清楚分离的路线：彩色 Q 版人物故事的逐笔绘制、怪诞小黑草图的逐笔绘制，以及 SVG/HTML 流程卡片和知识图形的程序动画。用户说“边讲边画”“一笔一笔画出来”“白板手绘”“先画左边再画右边”“知识讲解动画”或希望把文稿、SRT、人物故事做成手绘视频时使用。也支持只输出生图/图生视频提示词。不用于写实数字人或假装已经完成无法验证的成片。
-compatibility: Codex Skill。提示词模式无本地依赖；逐笔渲染器已随仓库打包，首次使用需创建隔离 Python 环境；程序动画模式需 Node.js、HyperFrames、浏览器和 FFmpeg。云配音、图像生成和视频模型均为可选能力，可能需要用户自己的账号或费用。
+description: 制作、修改和验收中文手绘知识讲解视频，交付配音、字幕、时间轴、可编辑工程和真实 MP4。支持两条不可混淆的制作路线：同一画布持续落墨的逐笔故事动画，以及用 SVG/HTML/GSAP 编排流程卡片、关系图和知识图形的程序动画。逐笔路线可选择自然肤色 Q 版人物、小黑风格或其他手绘风格，并可采用单场景、多幕故事、左右双语义岛等画面结构。用户说“边讲边画”“一笔一笔画出来”“白板手绘”“先画左边再画右边”“知识讲解动画”或希望把文稿、SRT、人物故事做成手绘视频时使用。也支持只输出生图/图生视频提示词。不用于写实数字人或假装已经完成无法验证的成片。
 ---
 
 # Nikola 手绘讲解视频
 
 把中文主题、文稿或 SRT 变成真正可播放、可检查、可继续编辑的手绘讲解视频。先识别用户要的是“画面被逐笔画出来”，还是“手绘风独立元素运动”；不能为了方便把一种效果冒充另一种效果。
+
+提示词模式无本地依赖；逐笔渲染器已随仓库打包，首次使用需创建隔离 Python 环境；程序动画模式需 Node.js、HyperFrames、浏览器和 FFmpeg。成片配音默认使用火山引擎刘飞音色，需用户自己的已授权账号或复用已有音轨；图像生成和视频模型为可选能力，可能产生费用。
 
 ## 先选择交付范围
 
@@ -15,30 +16,34 @@ compatibility: Codex Skill。提示词模式无本地依赖；逐笔渲染器已
 - **完整视频**：先读 [安装与预检](references/preflight-and-recovery.md) 和 [完整流程](references/automation-workflow.md)。先内部验证代表镜头，再继续全片；只有用户要求逐步确认或存在关键选择时才暂停。
 - **修改已有视频**：保留未被要求修改的音轨、时间轴和素材，只重做受影响阶段。
 
-## 按视觉意图路由
+## 先选两条制作路线之一
 
-| 用户真正想要的效果 | 路线 | 必读 |
+| 用户真正想要的效果 | 制作路线 | 必读 |
 |---|---|---|
-| “画面被画出来”“边讲边画”“逐笔落墨”“笔尖跟着线走” | 逐笔人物/故事 | [stroke-story-workflow.md](references/stroke-story-workflow.md) |
-| “讲一部分画一部分”“先左后右”“娓娓道来”并穿插关键词 | 逐笔双语义岛 | [semantic-island-storytelling.md](references/semantic-island-storytelling.md) |
-| 怪诞小黑、纯白草图、少量红橙蓝批注 | Nikola 怪诞草图 | [nikola-absurd-sketch-style.md](references/nikola-absurd-sketch-style.md) + 逐笔流程 |
+| “画面被画出来”“边讲边画”“逐笔落墨”“笔尖跟着线走” | 逐笔故事动画 | [stroke-story-workflow.md](references/stroke-story-workflow.md) |
 | 流程卡片、概念关系、独立元素组合、确定性文字 | 程序动画 | HyperFrames + SVG/HTML + GSAP，读 [automation-workflow.md](references/automation-workflow.md) |
-| 自然连续人物动作或复杂镜头运动 | 场景视频 | 先核实可用视频模型、成本和一致性限制 |
-| Flow/Nano Banana 生图或图生视频提示词 | 提示词 | [prompt-workflow.md](references/prompt-workflow.md) |
+
+逐笔故事动画选定后，再分别选择画面结构与视觉风格：
+
+- **画面结构**：单场景、多幕连续故事，或“先左后右并保留前文”的左右双语义岛。双语义岛只是逐笔故事的一种画面组织方法，参考 [semantic-island-storytelling.md](references/semantic-island-storytelling.md)。
+- **视觉风格**：自然肤色 Q 版人物、小黑风格，或用户指定的其他手绘风格。Q 版适合人物传记与历史；小黑适合抽象观点、方法论和隐喻。两种风格都能采用双语义岛，也都能采用其他画面结构。
+
+场景视频与“只输出 Flow/Nano Banana 提示词”是可选交付方式，不是本 Skill 的第三条手绘制作路线。自然连续人物动作或复杂运镜需要先核实视频模型、成本和一致性限制；只要提示词时读 [prompt-workflow.md](references/prompt-workflow.md)。
 
 逐笔路线使用 `vendor/srt-whiteboard-animation/` 中随仓库发布的 MIT 后端快照。它不包含第二份 `SKILL.md`，不会单独触发或要求重复确认；主 Skill 统一负责路由、配音、字幕、渲染和验收。运行环境不可用时保存已完成资产并报告缺口；除非用户明确同意，不以 SVG 动画冒充真实逐笔绘制。
 
 ## 可选视觉风格
 
 - **Q 版人物故事**：自然肤色、人物身体、年龄和服装锚点清楚，适合传记、历史和人物观点。参考 [q-human-story-style.md](references/q-human-story-style.md) 与 [乔布斯案例](examples/stroke-story/steve-jobs/README.md)。
-- **Nikola 怪诞小黑草图**：纯白、稀疏黑线、少量红橙蓝、留白和冷幽默动作主体，适合方法、系统、状态和隐喻。它是本仓库公开的通用设计预设，不依赖另一个私有 Skill。
-- **程序化知识图形**：暖白纸面、可控 SVG 元素、流程卡片和确定性文字，适合规则、步骤、关系和对比。参考 [程序动画案例](examples/program-animation/skill-demo/README.md)。
+- **小黑风格**：纯白、稀疏黑线、少量红橙蓝、留白和冷幽默动作主体，适合方法、系统、状态和隐喻。它是本仓库内置、可直接点选的公开预设；使用时必须读取 [完整视觉 DNA、来源说明与提示词骨架](references/xiaohei-style.md)。该风格借鉴 Ian 的开源项目，应始终称为“小黑风格”。
+
+程序化知识图形是制作路线，不是视觉风格。参考 [“什么是 Skill”程序动画案例](examples/program-animation/skill-demo/README.md)。逐笔案例见 [《约法三章》](examples/stroke-story/yuefa-sanzhang/README.md) 与 [《乔布斯的一生》](examples/stroke-story/steve-jobs/README.md)。
 
 参考图只影响当前项目，除非用户明确要求保存为新预设。人物、画风、动效和声音分别记录，不把换画风等同于换音色或重做旁白。
 
 ## 公开默认与本地配置
 
-仓库中的 [preferences.json](preferences.json) 只含无密钥默认值。用户指令和项目 `DESIGN.md` 优先。配音不是强制能力：可使用用户提供的音频、任意已授权 TTS，或可选的火山脚本；不要因为缺少某个提供商账号阻止提示词和无配音流程。
+仓库中的 [preferences.json](preferences.json) 只含无密钥默认值。用户指令和项目 `DESIGN.md` 优先。成片默认使用火山引擎 `seed-tts-2.0` 的刘飞音色 `zh_male_liufei_uranus_bigtts`；用户明确要求时可选择火山引擎其他已授权音色，已有与文稿一致的合格音轨优先复用。不要自动改用电脑系统朗读、edge-tts 或其他低质量本地 TTS；缺少授权音轨时可以继续提示词、画面和无配音阶段，但必须把配音列为未完成项。
 
 首次使用先读 [安装说明](docs/INSTALL.md) 和 [配置说明](docs/CONFIGURATION.md)，再运行：
 

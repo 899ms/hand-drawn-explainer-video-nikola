@@ -2,7 +2,9 @@
 
 ## 默认与复用
 
-公开 Skill 不预设个人音色。优先复用与稿件一致的完整音轨，其次使用用户提供的音频或用户明确配置的 TTS；不因换画风自动换声音。检查完整音轨是否已存在且稿件匹配，避免无谓收费。
+面向成片时默认使用火山引擎语音合成的刘飞音色 `zh_male_liufei_uranus_bigtts`，资源模型为 `seed-tts-2.0`。优先复用与稿件一致、质量合格的完整音轨；需要新合成时沿用刘飞，只有用户明确指定才改用火山引擎中的其他已授权音色。不因换画风自动换声音。检查完整音轨是否已存在且稿件匹配，避免无谓收费。
+
+电脑系统朗读、edge-tts 或其他低质量本地文本转语音不作为默认成片替代方案。若没有火山引擎授权或用户提供的合格音轨，继续完成不依赖声音的工作并明确标记配音缺口；不要静默换音色，也不要把临时机器朗读交付为已完成旁白。用户明确要求仅做低成本草稿试听时，可以使用临时声音，但必须标为占位音轨且不能覆盖已确认的刘飞资产。
 短讲解一般一次合成整稿，听感会比每句单独请求更一致。超过当前服务限制时按语义自然段拆分，并保持同一声音和设置；1500 字符是本地助手的保守限制，不是声称官方永久限制。
 
 ## 安全配音工具
@@ -10,11 +12,11 @@
 `scripts/volcengine_tts.ps1` 使用固定官方接口，保存输入摘要、音色、音频摘要和完整性元数据；相同输出且输入匹配时复用，不匹配时拒绝覆盖。缺少完整结束标记不保存为成功，不自动重发扣费请求。
 
 ```powershell
-pwsh -File <skill>/scripts/volcengine_tts.ps1 -TextFile <project>/narration.txt -OutputFile <project>/assets/narration.mp3 -Speaker <你的音色ID> -DryRun
-pwsh -File <skill>/scripts/volcengine_tts.ps1 -TextFile <project>/narration.txt -OutputFile <project>/assets/narration.mp3 -Speaker <你的音色ID>
+pwsh -File <skill>/scripts/volcengine_tts.ps1 -TextFile <project>/narration.txt -OutputFile <project>/assets/narration.mp3 -DryRun
+pwsh -File <skill>/scripts/volcengine_tts.ps1 -TextFile <project>/narration.txt -OutputFile <project>/assets/narration.mp3
 ```
 
-可使用 Windows PowerShell 5.1（脚本保存为带 BOM 的 UTF-8）或 PowerShell 7。`-DryRun` 仅检查输入和计划，不读取密钥、不发请求、不收费。现场合成仅在用户要求/既有授权范围内执行。
+可使用 Windows PowerShell 5.1（脚本保存为带 BOM 的 UTF-8）或 PowerShell 7。`-DryRun` 仅检查输入和计划，不读取密钥、不发请求、不收费。省略 `-Speaker` 时读取公开默认刘飞音色；用户明确选择其他火山音色时再传入 `-Speaker <音色ID>`。现场合成仅在用户要求/既有授权范围内执行。
 
 凭据：优先使用已授权的 `VOLCENGINE_TTS_API_KEY` 环境变量；否则同一 Windows 用户的 `%LOCALAPPDATA%/CodexVoice/volcengine-key.dpapi`。不得把密钥放入脚本参数、技能配置、输出 JSON 或 ZIP。若密钥曾在对话公开，提醒用户轮换；不能擅自撤销它。
 随附脚本当前实现 `https://openspeech.bytedance.com/api/v3/tts/unidirectional`、`X-Api-Key`、资源 ID 和请求 UUID，并校验完整结束标记。提供商接口、资源 ID 和音色可能变化；首次调用或报协议错误时查当前官方文档，不猜参数，也不要为验证接口盲目产生付费请求。
