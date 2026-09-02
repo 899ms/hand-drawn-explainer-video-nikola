@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nikola 手绘讲解视频"
+  short_description: "制作逐笔故事、小黑草图或程序图形的中文手绘视频"
+  default_prompt: "使用 $hand-drawn-explainer-video-nikola 把我的中文内容制作成手绘讲解视频；先判断应使用逐笔故事、双语义岛、小黑草图还是程序动画，并在交付前验证真实 MP4。"
